@@ -32,7 +32,10 @@ class Chat extends StatefulWidget {
   /// Creates a chat widget.
   const Chat({
     super.key,
+    this.checkBoxBuilder,
     this.audioMessageBuilder,
+    this.onCheckMessageTap,
+    this.editing = false,
     this.avatarBuilder,
     this.bubbleBuilder,
     this.bubbleRtlAlignment = BubbleRtlAlignment.right,
@@ -98,6 +101,10 @@ class Chat extends StatefulWidget {
   /// See [Message.audioMessageBuilder].
   final Widget Function(types.AudioMessage, {required int messageWidth})?
       audioMessageBuilder;
+
+  final Widget Function(types.Message)? checkBoxBuilder;
+  final void Function(BuildContext context, types.Message)? onCheckMessageTap;
+  final bool editing;
 
   /// See [Message.avatarBuilder].
   final Widget Function(String userId)? avatarBuilder;
@@ -546,6 +553,9 @@ class ChatState extends State<Chat> {
                 : min(constraints.maxWidth * 0.78, 440).floor();
 
         messageWidget = Message(
+          checkBoxBuilder: widget.checkBoxBuilder,
+          onCheckMessageTap: widget.onCheckMessageTap,
+          editing: widget.editing,
           audioMessageBuilder: widget.audioMessageBuilder,
           avatarBuilder: widget.avatarBuilder,
           bubbleBuilder: widget.bubbleBuilder,
