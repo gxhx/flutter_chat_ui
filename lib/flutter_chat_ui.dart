@@ -10,6 +10,7 @@ export 'src/models/send_button_visibility_mode.dart';
 export 'src/util.dart' show formatBytes, isConsistsOfEmojis;
 export 'src/widgets/chat.dart';
 export 'src/widgets/chat_list.dart';
+export 'src/widgets/group_chat.dart';
 export 'src/widgets/image_gallery.dart';
 export 'src/widgets/input/attachment_button.dart';
 export 'src/widgets/input/input.dart';

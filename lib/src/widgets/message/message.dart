@@ -248,7 +248,9 @@ class Message extends StatelessWidget {
               ? null
               : TextDirection.ltr,
           children: [
-            Visibility(visible: editing, child: checkBoxBuilder!(message)),
+            checkBoxBuilder != null
+                ? Visibility(visible: editing, child: checkBoxBuilder!(message))
+                : Container(),
             Visibility(
               visible: editing && currentUserIsAuthor,
               child: const Spacer(),
