@@ -383,6 +383,15 @@ List<Object> calculateGroupChatMessages(
     //   );
     // }
 
+    if (!nextMessageInGroup && message.type != types.MessageType.system) {
+      chatMessages.insert(
+        0,
+        MessageSpacer(
+          height: isFirst ? 1 : 6,
+          id: message.id,
+        ),
+      );
+    }
     chatMessages.insert(0, {
       'message': message,
       'nextMessageInGroup': nextMessageInGroup,
@@ -390,15 +399,6 @@ List<Object> calculateGroupChatMessages(
       'showStatus': message.showStatus ?? true,
     });
 
-    if (!nextMessageInGroup && message.type != types.MessageType.system) {
-      chatMessages.insert(
-        0,
-        MessageSpacer(
-          height: 6,
-          id: message.id,
-        ),
-      );
-    }
     //
     // if (nextMessageDifferentDay || nextMessageDateThreshold) {
     //   chatMessages.insert(

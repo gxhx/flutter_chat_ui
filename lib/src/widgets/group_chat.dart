@@ -533,8 +533,9 @@ class GroupChatState extends State<GroupChat> {
             ),
           );
     } else if (object is MessageSpacer) {
-      return SizedBox(
+      return Container(
         height: object.height,
+        color: const Color(0xFFF2F2F2),
       );
     } else if (object is UnreadHeaderData) {
       return AutoScrollTag(
@@ -555,7 +556,7 @@ class GroupChatState extends State<GroupChat> {
         messageWidget = widget.systemMessageBuilder?.call(message) ??
             SystemMessage(message: message.text);
       } else {
-        final messageWidth = (constraints.maxWidth - 99).floor();
+        final messageWidth = (constraints.maxWidth - 95).floor();
 
         messageWidget = GroupMessage(
           checkBoxBuilder: widget.checkBoxBuilder,

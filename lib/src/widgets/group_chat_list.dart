@@ -7,9 +7,9 @@ import 'state/inherited_chat_theme.dart';
 import 'state/inherited_user.dart';
 
 /// Animated list that handles automatic animations and pagination.
-class ChatList extends StatefulWidget {
+class GroupChatList extends StatefulWidget {
   /// Creates a chat list widget.
-  const ChatList({
+  const GroupChatList({
     super.key,
     this.bottomWidget,
     this.isLastPage,
@@ -62,11 +62,11 @@ class ChatList extends StatefulWidget {
   final bool useTopSafeAreaInset;
 
   @override
-  State<ChatList> createState() => _ChatListState();
+  State<GroupChatList> createState() => _GroupChatListState();
 }
 
 /// [ChatList] widget state.
-class _ChatListState extends State<ChatList>
+class _GroupChatListState extends State<GroupChatList>
     with SingleTickerProviderStateMixin {
   late final Animation<double> _animation = CurvedAnimation(
     curve: Curves.easeOutQuad,
@@ -88,7 +88,7 @@ class _ChatListState extends State<ChatList>
   }
 
   @override
-  void didUpdateWidget(covariant ChatList oldWidget) {
+  void didUpdateWidget(covariant GroupChatList oldWidget) {
     super.didUpdateWidget(oldWidget);
 
     _calculateDiffs(oldWidget.items);
@@ -108,9 +108,7 @@ class _ChatListState extends State<ChatList>
             return false;
           }
 
-          if (notification.metrics.pixels >=
-              (notification.metrics.maxScrollExtent *
-                  (widget.onEndReachedThreshold ?? 0.75))) {
+          if (notification.metrics.pixels <= -70) {
             if (widget.items.isEmpty || _isNextPageLoading) return false;
 
             _controller.duration = Duration.zero;
@@ -136,7 +134,7 @@ class _ChatListState extends State<ChatList>
           controller: widget.scrollController,
           keyboardDismissBehavior: widget.keyboardDismissBehavior,
           physics: widget.scrollPhysics,
-          reverse: true,
+          reverse: false,
           slivers: [
             if (widget.bottomWidget != null)
               SliverToBoxAdapter(child: widget.bottomWidget),
@@ -162,7 +160,7 @@ class _ChatListState extends State<ChatList>
             ),
             SliverPadding(
               padding: EdgeInsets.only(
-                top: 0 +
+                top: 16 +
                     (widget.useTopSafeAreaInset
                         ? MediaQuery.of(context).padding.top
                         : 0),
@@ -267,9 +265,8 @@ class _ChatListState extends State<ChatList>
   // Hacky solution to reconsider.
   void _scrollToBottomIfNeeded(List<Object> oldList) {
     try {
-      // Take index 1 because there is always a spacer on index 0.
-      final oldItem = oldList[1];
-      final item = widget.items[1];
+      final oldItem = oldList.last;
+      final item = widget.items.last;
 
       if (oldItem is Map<String, Object> && item is Map<String, Object>) {
         final oldMessage = oldItem['message']! as types.Message;
@@ -281,10 +278,10 @@ class _ChatListState extends State<ChatList>
           if (message.author.id == InheritedUser.of(context).user.id) {
             // Delay to give some time for Flutter to calculate new
             // size after new message was added
-            Future.delayed(const Duration(milliseconds: 100), () {
+            Future.delayed(const Duration(milliseconds: 200), () {
               if (widget.scrollController.hasClients) {
                 widget.scrollController.animateTo(
-                  0,
+                  widget.scrollController.positions.first.maxScrollExtent,
                   duration: const Duration(milliseconds: 200),
                   curve: Curves.easeInQuad,
                 );

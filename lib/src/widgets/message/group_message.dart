@@ -228,9 +228,9 @@ class GroupMessage extends StatelessWidget {
                   ? Theme.of(context).dividerColor
                   : Colors.transparent,
               width: 1,
-              paddingTop: 50,
-              paddingLeft: 20,
-              paddingBottom: 35,
+              paddingTop: 42,
+              paddingLeft: 18,
+              paddingBottom: 31,
             ),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -286,8 +286,8 @@ class GroupMessage extends StatelessWidget {
                     message,
                   ),
                   child: const Icon(
-                    Icons.more_vert_rounded,
-                    color: Color(0xFFAAAAAA),
+                    Icons.more_horiz,
+                    color: Color(0xFFDDDDDD),
                   ),
                 ),
               ],
@@ -366,7 +366,7 @@ class GroupMessage extends StatelessWidget {
             imageHeaders: imageHeaders,
             onAvatarTap: onAvatarTap,
           )
-      : const SizedBox(width: 40);
+      : const SizedBox(width: 36);
 
   Widget _replyAvatarBuilder() => showAvatar
       ? avatarBuilder?.call(message.repliedMessage!.author.id) ??
@@ -376,7 +376,7 @@ class GroupMessage extends StatelessWidget {
             imageHeaders: imageHeaders,
             onAvatarTap: onAvatarTap,
           )
-      : const SizedBox(width: 40);
+      : const SizedBox(width: 36);
 
   Widget _bubbleBuilder(
     BuildContext context,
